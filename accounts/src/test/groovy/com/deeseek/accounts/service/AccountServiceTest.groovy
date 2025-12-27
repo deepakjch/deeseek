@@ -98,13 +98,13 @@ class AccountServiceTest extends Specification {
                     branchAddress: "123 Main St"
             )
             def requestDto = new AccountRequestDto(
-                    customerId: 1L,
+                    customerId: 2L,  // Different customer ID to trigger the check
                     accountType: "Checking",
                     branchAddress: "456 Oak Ave"
             )
             def updatedAccount = new Account(
                     accountNumber: 1234567L,
-                    customerId: 1L,
+                    customerId: 2L,
                     accountType: "Checking",
                     branchAddress: "456 Oak Ave"
             )
@@ -114,7 +114,7 @@ class AccountServiceTest extends Specification {
 
         then:
             1 * accountRepository.findByAccountNumber(1234567L) >> Optional.of(existingAccount)
-            1 * customerRepository.existsById(1L) >> true
+            1 * customerRepository.existsById(2L) >> true
             1 * accountRepository.save(_) >> updatedAccount
             result.accountType == "Checking"
     }
