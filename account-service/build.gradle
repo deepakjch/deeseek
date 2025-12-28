@@ -1,0 +1,85 @@
+plugins {
+	id 'org.springframework.boot' version '4.0.0'
+	id 'io.spring.dependency-management' version '1.1.7'
+	id 'java'
+	id 'groovy'
+}
+
+group = 'com.deebank'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '21'
+}
+
+sourceSets {
+	test {
+		groovy {
+			srcDirs = ['src/test/groovy', 'src/test/java']
+		}
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	
+	runtimeOnly 'com.h2database:h2'
+	
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation('org.spockframework:spock-core:2.3-groovy-4.0') {
+		exclude group: 'org.codehaus.groovy'
+	}
+	testImplementation('org.spockframework:spock-spring:2.3-groovy-4.0') {
+		exclude group: 'org.codehaus.groovy'
+	}
+	testImplementation 'org.apache.groovy:groovy:4.0.15'
+	testRuntimeOnly 'net.bytebuddy:byte-buddy:1.14.8'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+	
+	// CRITICAL: Gradle's default behavior is BUILD ONCE, then run ALL tests
+	// Execution order: compileJava -> compileTestGroovy -> testClasses -> test
+	// The 'test' task automatically depends on 'testClasses'
+	// No additional configuration needed - Gradle handles this correctly
+	
+	// Enable parallel test execution (use half of available processors)
+	maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+	
+	// Don't fork new JVM for each test class - reuse JVM for better performance
+	// forkEvery = 0 means: build once, then run all tests in the same JVM fork
+	forkEvery = 0
+	
+	// Increase heap size for test execution
+	minHeapSize = "256m"
+	maxHeapSize = "1g"
+	
+	// Configure test output for better performance
+	testLogging {
+		events "passed", "skipped", "failed"
+		exceptionFormat "full"
+		showStandardStreams = false  // Don't show standard output in logs (faster)
+	}
+}
+
