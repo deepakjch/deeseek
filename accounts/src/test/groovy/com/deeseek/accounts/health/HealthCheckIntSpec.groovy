@@ -9,9 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class HealthCheckIntSpec extends BaseIntSpec {
 
-    @Autowired
-    MockMvc mockMvc
-
     def "should return health status UP"() {
         when: "we call the health endpoint"
             def result = mockMvc.perform(get("/actuator/health"))

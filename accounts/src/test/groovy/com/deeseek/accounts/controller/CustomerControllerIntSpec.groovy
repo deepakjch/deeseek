@@ -7,7 +7,7 @@ import com.deeseek.accounts.exception.ResourceAlreadyExistsException
 import com.deeseek.accounts.exception.ResourceNotFoundException
 import com.deeseek.accounts.exception.OperationNotAllowedException
 import com.deeseek.accounts.service.CustomerService
-import com.fasterxml.jackson.databind.ObjectMapper
+import tools.jackson.databind.ObjectMapper
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -19,9 +19,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 class CustomerControllerIntSpec extends BaseIntSpec {
-
-    @Autowired
-    MockMvc mockMvc
 
     @Autowired
     ObjectMapper objectMapper
