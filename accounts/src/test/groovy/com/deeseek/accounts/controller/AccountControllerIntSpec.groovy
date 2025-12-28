@@ -5,7 +5,7 @@ import com.deeseek.accounts.dto.AccountDto
 import com.deeseek.accounts.dto.AccountRequestDto
 import com.deeseek.accounts.exception.ResourceNotFoundException
 import com.deeseek.accounts.service.AccountService
-import com.fasterxml.jackson.databind.ObjectMapper
+import tools.jackson.databind.ObjectMapper
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -19,17 +19,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AccountControllerIntSpec extends BaseIntSpec {
 
     @Autowired
-    MockMvc mockMvc
-
-    @Autowired
     ObjectMapper objectMapper
 
     @SpringBean
     AccountService accountService = Mock()
 
     def setup() {
-        // Verify that Spring context is loaded and MockMvc is injected
-        assert mockMvc != null : "MockMvc should be injected by Spring"
+        // Verify that Spring context is loaded and MockMvc is set up
+        assert mockMvc != null : "MockMvc should be set up by base class"
         assert objectMapper != null : "ObjectMapper should be injected by Spring"
     }
 
