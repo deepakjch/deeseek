@@ -1,8 +1,8 @@
 {
     "folders": [
         {
-            "name": "accounts",
-            "path": "./accounts"
+            "name": "account-service",
+            "path": "./account-service"
         }
     ],
     "settings": {
