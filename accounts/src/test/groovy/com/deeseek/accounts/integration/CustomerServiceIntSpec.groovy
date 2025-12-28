@@ -9,14 +9,16 @@ import com.deeseek.accounts.service.CustomerService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.jdbc.Sql
 import org.springframework.transaction.annotation.Transactional
 import spock.lang.Specification
 
 @SpringBootTest
+@ContextConfiguration(classes = [com.deeseek.accounts.AccountsApplication])
 @ActiveProfiles("test")
 @Transactional
-class CustomerServiceIntegrationTest extends Specification {
+class CustomerServiceIntSpec extends Specification {
 
     @Autowired
     CustomerService customerService

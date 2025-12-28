@@ -1,0 +1,33 @@
+{
+    "folders": [
+        {
+            "name": "accounts",
+            "path": "./accounts"
+        }
+    ],
+    "settings": {
+        "java.configuration.detectJdksAtStart": true,
+        "java.import.gradle.enabled": true,
+        "java.import.gradle.wrapper.enabled": true,
+        "java.configuration.runtimes": [
+            {
+                "name": "JavaSE-21",
+                "path": "/Users/deepakc/.sdkman/candidates/java/21.0.5-tem"
+            }
+        ],
+        "java.jdt.ls.java.home": "/Users/deepakc/.sdkman/candidates/java/21.0.5-tem",
+        "gradle.nestedProjects": true,
+        "files.exclude": {
+            "**/build": true,
+            "**/.gradle": true
+        },
+        "java.configuration.updateBuildConfiguration": "automatic",
+        "java.compile.nullAnalysis.mode": "automatic"
+    },
+    "extensions": {
+        "recommendations": [
+            "vscjava.vscode-java-pack",
+            "vscjava.vscode-gradle"
+        ]
+    }
+}

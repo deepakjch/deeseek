@@ -12,7 +12,7 @@ import spock.lang.Specification
 
 import java.time.LocalDate
 
-class CustomerServiceTest extends Specification {
+class CustomerServiceSpec extends Specification {
 
     CustomerRepository customerRepository = Mock()
     AccountRepository accountRepository = Mock()

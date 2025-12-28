@@ -1,5 +1,6 @@
 package com.deeseek.accounts.controller
 
+import com.deeseek.accounts.BaseIntSpec
 import com.deeseek.accounts.dto.CustomerDto
 import com.deeseek.accounts.dto.CustomerRequestDto
 import com.deeseek.accounts.exception.ResourceAlreadyExistsException
@@ -9,18 +10,15 @@ import com.deeseek.accounts.service.CustomerService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import spock.lang.Specification
 
 import java.time.LocalDate
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
-@WebMvcTest(CustomerController)
-class CustomerControllerIntegrationTest extends Specification {
+class CustomerControllerIntSpec extends BaseIntSpec {
 
     @Autowired
     MockMvc mockMvc

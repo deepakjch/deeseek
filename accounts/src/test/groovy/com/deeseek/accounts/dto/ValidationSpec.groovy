@@ -6,7 +6,7 @@ import jakarta.validation.Validator
 import jakarta.validation.ValidatorFactory
 import spock.lang.Specification
 
-class ValidationTest extends Specification {
+class ValidationSpec extends Specification {
 
     ValidatorFactory factory = Validation.buildDefaultValidatorFactory()
     Validator validator = factory.getValidator()

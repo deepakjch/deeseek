@@ -52,9 +52,37 @@ dependencies {
 	}
 	testImplementation 'org.apache.groovy:groovy:4.0.15'
 	testRuntimeOnly 'net.bytebuddy:byte-buddy:1.14.8'
+	
+	// Add explicit Spring Boot test dependencies for Spock
+	testImplementation 'org.springframework:spring-test'
+	testImplementation 'org.springframework.boot:spring-boot-test'
+	testImplementation 'org.springframework.boot:spring-boot-test-autoconfigure'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+	
+	// CRITICAL: Gradle's default behavior is BUILD ONCE, then run ALL tests
+	// Execution order: compileJava -> compileTestGroovy -> testClasses -> test
+	// The 'test' task automatically depends on 'testClasses'
+	// No additional configuration needed - Gradle handles this correctly
+	
+	// Enable parallel test execution (use half of available processors)
+	maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+	
+	// Don't fork new JVM for each test class - reuse JVM for better performance
+	// forkEvery = 0 means: build once, then run all tests in the same JVM fork
+	forkEvery = 0
+	
+	// Increase heap size for test execution
+	minHeapSize = "256m"
+	maxHeapSize = "1g"
+	
+	// Configure test output for better performance
+	testLogging {
+		events "passed", "skipped", "failed"
+		exceptionFormat "full"
+		showStandardStreams = false  // Don't show standard output in logs (faster)
+	}
 }
 

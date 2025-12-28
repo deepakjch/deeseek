@@ -1,5 +1,6 @@
 package com.deeseek.accounts.controller
 
+import com.deeseek.accounts.BaseIntSpec
 import com.deeseek.accounts.dto.AccountDto
 import com.deeseek.accounts.dto.AccountRequestDto
 import com.deeseek.accounts.exception.ResourceNotFoundException
@@ -7,22 +8,15 @@ import com.deeseek.accounts.service.AccountService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
-import spock.lang.Specification
 
 import java.time.LocalDate
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles("test")
-class AccountControllerIntegrationTest extends Specification {
+class AccountControllerIntSpec extends BaseIntSpec {
 
     @Autowired
     MockMvc mockMvc
@@ -32,6 +26,12 @@ class AccountControllerIntegrationTest extends Specification {
 
     @SpringBean
     AccountService accountService = Mock()
+
+    def setup() {
+        // Verify that Spring context is loaded and MockMvc is injected
+        assert mockMvc != null : "MockMvc should be injected by Spring"
+        assert objectMapper != null : "ObjectMapper should be injected by Spring"
+    }
 
     def "POST /api/accounts - should create account successfully"() {
         given:
