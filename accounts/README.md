@@ -1,4 +1,4 @@
-# Accounts Service
+# Account Service
 
 A Spring Boot application for managing accounts.
 
@@ -51,8 +51,8 @@ The application will start on port 8080.
 src/
   main/
     java/
-      com/deeseek/accounts/
-        AccountsApplication.java        # Main Spring Boot application
+      com/deebank/accountservice/
+        AccountServiceApplication.java        # Main Spring Boot application
         controller/
           HelloWorldController.java     # Hello World REST controller
     resources/
@@ -61,6 +61,6 @@ src/
 
 ## Group and Package
 
-- **Group**: `com.deeseek`
-- **Package**: `com.deeseek.accounts`
+- **Group**: `com.deebank`
+- **Package**: `com.deebank.accountservice`
 

@@ -5,7 +5,7 @@ plugins {
 	id 'groovy'
 }
 
-group = 'com.deeseek'
+group = 'com.deebank'
 version = '0.0.1-SNAPSHOT'
 
 java {
