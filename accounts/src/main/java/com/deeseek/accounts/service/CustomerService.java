@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -25,7 +24,7 @@ public class CustomerService {
 	private final CustomerRepository customerRepository;
 	private final AccountRepository accountRepository;
 
-	public CustomerDto createCustomer(CustomerRequestDto requestDto, String createdBy) {
+	public CustomerDto createCustomer(CustomerRequestDto requestDto) {
 		// Check if email already exists
 		if (customerRepository.findByEmail(requestDto.getEmail()).isPresent()) {
 			throw new ResourceAlreadyExistsException("Customer with email " + requestDto.getEmail() + " already exists");
@@ -40,8 +39,7 @@ public class CustomerService {
 		customer.setName(requestDto.getName());
 		customer.setEmail(requestDto.getEmail());
 		customer.setMobileNumber(requestDto.getMobileNumber());
-		customer.setCreatedAt(LocalDate.now());
-		customer.setCreatedBy(createdBy);
+		// Audit fields (createdAt, createdBy, updatedAt, updatedBy) are automatically set by JPA auditing
 
 		Customer savedCustomer = customerRepository.save(customer);
 		return mapToDto(savedCustomer);
@@ -62,7 +60,7 @@ public class CustomerService {
 				.collect(Collectors.toList());
 	}
 
-	public CustomerDto updateCustomer(Long customerId, CustomerRequestDto requestDto, String updatedBy) {
+	public CustomerDto updateCustomer(Long customerId, CustomerRequestDto requestDto) {
 		if (customerId == null) {
 			throw new IllegalArgumentException("Customer ID cannot be null");
 		}
@@ -86,14 +84,13 @@ public class CustomerService {
 		customer.setName(requestDto.getName());
 		customer.setEmail(requestDto.getEmail());
 		customer.setMobileNumber(requestDto.getMobileNumber());
-		customer.setUpdatedAt(LocalDate.now());
-		customer.setUpdatedBy(updatedBy);
+		// Audit fields (updatedAt, updatedBy) are automatically set by JPA auditing
 
 		Customer updatedCustomer = customerRepository.save(customer);
 		return mapToDto(updatedCustomer);
 	}
 
-	public CustomerDto partialUpdateCustomer(Long customerId, CustomerRequestDto requestDto, String updatedBy) {
+	public CustomerDto partialUpdateCustomer(Long customerId, CustomerRequestDto requestDto) {
 		if (customerId == null) {
 			throw new IllegalArgumentException("Customer ID cannot be null");
 		}
@@ -115,9 +112,7 @@ public class CustomerService {
 			}
 			customer.setMobileNumber(requestDto.getMobileNumber());
 		}
-
-		customer.setUpdatedAt(LocalDate.now());
-		customer.setUpdatedBy(updatedBy);
+		// Audit fields (updatedAt, updatedBy) are automatically set by JPA auditing
 
 		Customer updatedCustomer = customerRepository.save(customer);
 		return mapToDto(updatedCustomer);

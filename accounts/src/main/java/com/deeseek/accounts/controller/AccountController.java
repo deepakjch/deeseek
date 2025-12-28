@@ -21,11 +21,10 @@ import java.util.List;
 public class AccountController {
 
 	private final AccountService accountService;
-	private static final String DEFAULT_USER = "SYSTEM";
 
 	@PostMapping
 	public ResponseEntity<ResponseDto<AccountDto>> createAccount(@Valid @RequestBody AccountRequestDto accountRequestDto) {
-		AccountDto accountDto = accountService.createAccount(accountRequestDto, DEFAULT_USER);
+		AccountDto accountDto = accountService.createAccount(accountRequestDto);
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(ResponseDto.success("Account created successfully", accountDto));
 	}
@@ -52,7 +51,7 @@ public class AccountController {
 	public ResponseEntity<ResponseDto<AccountDto>> updateAccount(
 			@PathVariable Long accountNumber,
 			@Valid @RequestBody AccountRequestDto accountRequestDto) {
-		AccountDto accountDto = accountService.updateAccount(accountNumber, accountRequestDto, DEFAULT_USER);
+		AccountDto accountDto = accountService.updateAccount(accountNumber, accountRequestDto);
 		return ResponseEntity.ok(ResponseDto.success("Account updated successfully", accountDto));
 	}
 
@@ -60,7 +59,7 @@ public class AccountController {
 	public ResponseEntity<ResponseDto<AccountDto>> partialUpdateAccount(
 			@PathVariable Long accountNumber,
 			@RequestBody AccountRequestDto accountRequestDto) {
-		AccountDto accountDto = accountService.partialUpdateAccount(accountNumber, accountRequestDto, DEFAULT_USER);
+		AccountDto accountDto = accountService.partialUpdateAccount(accountNumber, accountRequestDto);
 		return ResponseEntity.ok(ResponseDto.success("Account updated successfully", accountDto));
 	}
 

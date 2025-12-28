@@ -43,7 +43,7 @@ class AccountControllerIntSpec extends BaseIntSpec {
                     .accountType("Savings")
                     .branchAddress("123 Main St")
                     .createdAt(LocalDate.now())
-                    .createdBy("SYSTEM")
+                    .createdBy("Account Service")
                     .build()
 
         when:
@@ -54,7 +54,7 @@ class AccountControllerIntSpec extends BaseIntSpec {
             )
 
         then:
-            1 * accountService.createAccount(_, "SYSTEM") >> accountDto
+            1 * accountService.createAccount(_) >> accountDto
             result.andExpect(status().isCreated())
                     .andExpect(jsonPath('$.statusCode').value("200"))
                     .andExpect(jsonPath('$.statusMsg').value("Account created successfully"))
@@ -78,7 +78,7 @@ class AccountControllerIntSpec extends BaseIntSpec {
             )
 
         then:
-            0 * accountService.createAccount(_, _)
+            0 * accountService.createAccount(_)
             result.andExpect(status().isBadRequest())
                     .andExpect(jsonPath('$.errorCode').value("VALIDATION_FAILED"))
     }
@@ -168,7 +168,7 @@ class AccountControllerIntSpec extends BaseIntSpec {
             )
 
         then:
-            1 * accountService.updateAccount(1234567L, _, "SYSTEM") >> accountDto
+            1 * accountService.updateAccount(1234567L, _) >> accountDto
             result.andExpect(status().isOk())
                     .andExpect(jsonPath('$.data.accountType').value("Checking"))
     }
@@ -193,7 +193,7 @@ class AccountControllerIntSpec extends BaseIntSpec {
             )
 
         then:
-            1 * accountService.partialUpdateAccount(1234567L, _, "SYSTEM") >> accountDto
+            1 * accountService.partialUpdateAccount(1234567L, _) >> accountDto
             result.andExpect(status().isOk())
                     .andExpect(jsonPath('$.data.accountType').value("Investment"))
     }

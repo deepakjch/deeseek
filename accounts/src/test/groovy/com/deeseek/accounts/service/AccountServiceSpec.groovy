@@ -35,7 +35,7 @@ class AccountServiceSpec extends Specification {
             )
 
         when:
-            def result = accountService.createAccount(requestDto, "SYSTEM")
+            def result = accountService.createAccount(requestDto)
 
         then:
             1 * customerRepository.existsById(1L) >> true
@@ -54,7 +54,7 @@ class AccountServiceSpec extends Specification {
             )
 
         when:
-            accountService.createAccount(requestDto, "SYSTEM")
+            accountService.createAccount(requestDto)
 
         then:
             1 * customerRepository.existsById(999L) >> false
@@ -110,7 +110,7 @@ class AccountServiceSpec extends Specification {
             )
 
         when:
-            def result = accountService.updateAccount(1234567L, requestDto, "SYSTEM")
+            def result = accountService.updateAccount(1234567L, requestDto)
 
         then:
             1 * accountRepository.findByAccountNumber(1234567L) >> Optional.of(existingAccount)
@@ -138,7 +138,7 @@ class AccountServiceSpec extends Specification {
             )
 
         when:
-            def result = accountService.partialUpdateAccount(1234567L, requestDto, "SYSTEM")
+            def result = accountService.partialUpdateAccount(1234567L, requestDto)
 
         then:
             1 * accountRepository.findByAccountNumber(1234567L) >> Optional.of(existingAccount)

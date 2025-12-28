@@ -32,14 +32,14 @@ class CustomerServiceIntSpec extends Specification {
             )
 
         when:
-            def created = customerService.createCustomer(requestDto, "TEST_USER")
+            def created = customerService.createCustomer(requestDto)
 
         then:
             created.customerId != null
             created.name == "Integration Test Customer"
             created.email == "integration@test.com"
             created.mobileNumber == "81234567"
-            created.createdBy == "TEST_USER"
+            created.createdBy == "Account Service"
 
         when:
             def retrieved = customerService.getCustomer(created.customerId)
@@ -64,8 +64,8 @@ class CustomerServiceIntSpec extends Specification {
             )
 
         when:
-            customerService.createCustomer(requestDto1, "TEST_USER")
-            customerService.createCustomer(requestDto2, "TEST_USER")
+            customerService.createCustomer(requestDto1)
+            customerService.createCustomer(requestDto2)
 
         then:
             thrown(ResourceAlreadyExistsException)
@@ -85,8 +85,8 @@ class CustomerServiceIntSpec extends Specification {
             )
 
         when:
-            customerService.createCustomer(requestDto1, "TEST_USER")
-            customerService.createCustomer(requestDto2, "TEST_USER")
+            customerService.createCustomer(requestDto1)
+            customerService.createCustomer(requestDto2)
 
         then:
             thrown(ResourceAlreadyExistsException)
@@ -99,7 +99,7 @@ class CustomerServiceIntSpec extends Specification {
                     email: "original@test.com",
                     mobileNumber: "81234567"
             )
-            def created = customerService.createCustomer(createRequest, "TEST_USER")
+            def created = customerService.createCustomer(createRequest)
             
             def updateRequest = new CustomerRequestDto(
                     name: "Updated Name",
@@ -108,13 +108,13 @@ class CustomerServiceIntSpec extends Specification {
             )
 
         when:
-            def updated = customerService.updateCustomer(created.customerId, updateRequest, "TEST_USER")
+            def updated = customerService.updateCustomer(created.customerId, updateRequest)
 
         then:
             updated.name == "Updated Name"
             updated.email == "updated@test.com"
             updated.mobileNumber == "98765432"
-            updated.updatedBy == "TEST_USER"
+            updated.updatedBy == "Account Service"
     }
 
     def "should throw exception when customer not found for update"() {
@@ -126,7 +126,7 @@ class CustomerServiceIntSpec extends Specification {
             )
 
         when:
-            customerService.updateCustomer(99999L, updateRequest, "TEST_USER")
+            customerService.updateCustomer(99999L, updateRequest)
 
         then:
             thrown(ResourceNotFoundException)
@@ -144,8 +144,8 @@ class CustomerServiceIntSpec extends Specification {
                     email: "two@test.com",
                     mobileNumber: "98765432"
             )
-            customerService.createCustomer(request1, "TEST_USER")
-            customerService.createCustomer(request2, "TEST_USER")
+            customerService.createCustomer(request1)
+            customerService.createCustomer(request2)
 
         when:
             def allCustomers = customerService.getAllCustomers()

@@ -32,7 +32,7 @@ class AccountServiceIntSpec extends Specification {
                     email: "customer@test.com",
                     mobileNumber: "81234567"
             )
-            def customer = customerService.createCustomer(customerRequest, "TEST_USER")
+            def customer = customerService.createCustomer(customerRequest)
 
             def accountRequest = new AccountRequestDto(
                     customerId: customer.customerId,
@@ -41,7 +41,7 @@ class AccountServiceIntSpec extends Specification {
             )
 
         when:
-            def account = accountService.createAccount(accountRequest, "TEST_USER")
+            def account = accountService.createAccount(accountRequest)
 
         then:
             account.accountNumber != null
@@ -50,7 +50,7 @@ class AccountServiceIntSpec extends Specification {
             account.customerId == customer.customerId
             account.accountType == "Savings"
             account.branchAddress == "123 Test Street"
-            account.createdBy == "TEST_USER"
+            account.createdBy == "Account Service"
     }
 
     def "should throw exception when creating account for non-existent customer"() {
@@ -62,7 +62,7 @@ class AccountServiceIntSpec extends Specification {
             )
 
         when:
-            accountService.createAccount(accountRequest, "TEST_USER")
+            accountService.createAccount(accountRequest)
 
         then:
             thrown(ResourceNotFoundException)
@@ -75,7 +75,7 @@ class AccountServiceIntSpec extends Specification {
                     email: "customer2@test.com",
                     mobileNumber: "87654321"
             )
-            def customer = customerService.createCustomer(customerRequest, "TEST_USER")
+            def customer = customerService.createCustomer(customerRequest)
 
             def accountRequest1 = new AccountRequestDto(
                     customerId: customer.customerId,
@@ -87,8 +87,8 @@ class AccountServiceIntSpec extends Specification {
                     accountType: "Checking",
                     branchAddress: "456 Test Avenue"
             )
-            accountService.createAccount(accountRequest1, "TEST_USER")
-            accountService.createAccount(accountRequest2, "TEST_USER")
+            accountService.createAccount(accountRequest1)
+            accountService.createAccount(accountRequest2)
 
         when:
             def accounts = accountService.getAccountsByCustomerId(customer.customerId)
@@ -106,14 +106,14 @@ class AccountServiceIntSpec extends Specification {
                     email: "customer3@test.com",
                     mobileNumber: "81111111"
             )
-            def customer = customerService.createCustomer(customerRequest, "TEST_USER")
+            def customer = customerService.createCustomer(customerRequest)
 
             def accountRequest = new AccountRequestDto(
                     customerId: customer.customerId,
                     accountType: "Savings",
                     branchAddress: "123 Test Street"
             )
-            def createdAccount = accountService.createAccount(accountRequest, "TEST_USER")
+            def createdAccount = accountService.createAccount(accountRequest)
 
             def updateRequest = new AccountRequestDto(
                     customerId: customer.customerId,
@@ -122,12 +122,12 @@ class AccountServiceIntSpec extends Specification {
             )
 
         when:
-            def updated = accountService.updateAccount(createdAccount.accountNumber, updateRequest, "TEST_USER")
+            def updated = accountService.updateAccount(createdAccount.accountNumber, updateRequest)
 
         then:
             updated.accountType == "Checking"
             updated.branchAddress == "456 Updated Street"
-            updated.updatedBy == "TEST_USER"
+            updated.updatedBy == "Account Service"
     }
 
     def "should delete account successfully"() {
@@ -137,14 +137,14 @@ class AccountServiceIntSpec extends Specification {
                     email: "customer4@test.com",
                     mobileNumber: "82222222"
             )
-            def customer = customerService.createCustomer(customerRequest, "TEST_USER")
+            def customer = customerService.createCustomer(customerRequest)
 
             def accountRequest = new AccountRequestDto(
                     customerId: customer.customerId,
                     accountType: "Savings",
                     branchAddress: "123 Test Street"
             )
-            def account = accountService.createAccount(accountRequest, "TEST_USER")
+            def account = accountService.createAccount(accountRequest)
 
         when:
             accountService.deleteAccount(account.accountNumber)

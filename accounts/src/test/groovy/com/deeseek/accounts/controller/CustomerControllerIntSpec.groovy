@@ -39,7 +39,7 @@ class CustomerControllerIntSpec extends BaseIntSpec {
                     .email("john.doe@example.com")
                     .mobileNumber("81234567")
                     .createdAt(LocalDate.now())
-                    .createdBy("SYSTEM")
+                    .createdBy("Account Service")
                     .build()
 
         when:
@@ -50,7 +50,7 @@ class CustomerControllerIntSpec extends BaseIntSpec {
             )
 
         then:
-            1 * customerService.createCustomer(_, "SYSTEM") >> customerDto
+            1 * customerService.createCustomer(_) >> customerDto
             result.andExpect(status().isCreated())
                     .andExpect(jsonPath('$.statusCode').value("200"))
                     .andExpect(jsonPath('$.statusMsg').value("Customer created successfully"))
@@ -75,7 +75,7 @@ class CustomerControllerIntSpec extends BaseIntSpec {
             )
 
         then:
-            1 * customerService.createCustomer(_, "SYSTEM") >> {
+            1 * customerService.createCustomer(_) >> {
                 throw new ResourceAlreadyExistsException("Customer with email existing@example.com already exists")
             }
             result.andExpect(status().isConflict())
@@ -98,7 +98,7 @@ class CustomerControllerIntSpec extends BaseIntSpec {
             )
 
         then:
-            0 * customerService.createCustomer(_, _)
+            0 * customerService.createCustomer(_)
             result.andExpect(status().isBadRequest())
                     .andExpect(jsonPath('$.errorCode').value("VALIDATION_FAILED"))
                     .andExpect(jsonPath('$.validationErrors').isArray())
@@ -176,7 +176,7 @@ class CustomerControllerIntSpec extends BaseIntSpec {
             )
 
         then:
-            1 * customerService.updateCustomer(1L, _, "SYSTEM") >> customerDto
+            1 * customerService.updateCustomer(1L, _) >> customerDto
             result.andExpect(status().isOk())
                     .andExpect(jsonPath('$.statusCode').value("200"))
                     .andExpect(jsonPath('$.data.name').value("John Updated"))
@@ -204,7 +204,7 @@ class CustomerControllerIntSpec extends BaseIntSpec {
             )
 
         then:
-            1 * customerService.partialUpdateCustomer(1L, _, "SYSTEM") >> customerDto
+            1 * customerService.partialUpdateCustomer(1L, _) >> customerDto
             result.andExpect(status().isOk())
                     .andExpect(jsonPath('$.data.name').value("John Patched"))
     }
