@@ -35,7 +35,7 @@ class CustomerServiceSpec extends Specification {
             )
 
         when:
-            def result = customerService.createCustomer(requestDto, "SYSTEM")
+            def result = customerService.createCustomer(requestDto)
 
         then:
             1 * customerRepository.findByEmail("john@example.com") >> Optional.empty()
@@ -57,7 +57,7 @@ class CustomerServiceSpec extends Specification {
             def existingCustomer = new Customer(customerId: 1L, email: "existing@example.com")
 
         when:
-            customerService.createCustomer(requestDto, "SYSTEM")
+            customerService.createCustomer(requestDto)
 
         then:
             1 * customerRepository.findByEmail("existing@example.com") >> Optional.of(existingCustomer)
@@ -75,7 +75,7 @@ class CustomerServiceSpec extends Specification {
             def existingCustomer = new Customer(customerId: 1L, mobileNumber: "81234567")
 
         when:
-            customerService.createCustomer(requestDto, "SYSTEM")
+            customerService.createCustomer(requestDto)
 
         then:
             1 * customerRepository.findByEmail("john@example.com") >> Optional.empty()
@@ -133,7 +133,7 @@ class CustomerServiceSpec extends Specification {
             )
 
         when:
-            def result = customerService.updateCustomer(1L, requestDto, "SYSTEM")
+            def result = customerService.updateCustomer(1L, requestDto)
 
         then:
             1 * customerRepository.findById(1L) >> Optional.of(existingCustomer)

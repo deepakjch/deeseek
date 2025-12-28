@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -25,7 +24,7 @@ public class AccountService {
 	private final CustomerRepository customerRepository;
 	private final AccountNumberGenerator accountNumberGenerator;
 
-	public AccountDto createAccount(AccountRequestDto requestDto, String createdBy) {
+	public AccountDto createAccount(AccountRequestDto requestDto) {
 		if (requestDto == null) {
 			throw new IllegalArgumentException("Account request cannot be null");
 		}
@@ -45,8 +44,7 @@ public class AccountService {
 		account.setCustomerId(requestDto.getCustomerId());
 		account.setAccountType(requestDto.getAccountType());
 		account.setBranchAddress(requestDto.getBranchAddress());
-		account.setCreatedAt(LocalDate.now());
-		account.setCreatedBy(createdBy);
+		// Audit fields (createdAt, createdBy, updatedAt, updatedBy) are automatically set by JPA auditing
 
 		Account savedAccount = accountRepository.save(account);
 		return mapToDto(savedAccount);
@@ -79,7 +77,7 @@ public class AccountService {
 				.collect(Collectors.toList());
 	}
 
-	public AccountDto updateAccount(Long accountNumber, AccountRequestDto requestDto, String updatedBy) {
+	public AccountDto updateAccount(Long accountNumber, AccountRequestDto requestDto) {
 		if (accountNumber == null) {
 			throw new IllegalArgumentException("Account number cannot be null");
 		}
@@ -100,14 +98,13 @@ public class AccountService {
 		account.setCustomerId(requestDto.getCustomerId());
 		account.setAccountType(requestDto.getAccountType());
 		account.setBranchAddress(requestDto.getBranchAddress());
-		account.setUpdatedAt(LocalDate.now());
-		account.setUpdatedBy(updatedBy);
+		// Audit fields (updatedAt, updatedBy) are automatically set by JPA auditing
 
 		Account updatedAccount = accountRepository.save(account);
 		return mapToDto(updatedAccount);
 	}
 
-	public AccountDto partialUpdateAccount(Long accountNumber, AccountRequestDto requestDto, String updatedBy) {
+	public AccountDto partialUpdateAccount(Long accountNumber, AccountRequestDto requestDto) {
 		if (accountNumber == null) {
 			throw new IllegalArgumentException("Account number cannot be null");
 		}
@@ -131,9 +128,7 @@ public class AccountService {
 				account.setBranchAddress(requestDto.getBranchAddress());
 			}
 		}
-
-		account.setUpdatedAt(LocalDate.now());
-		account.setUpdatedBy(updatedBy);
+		// Audit fields (updatedAt, updatedBy) are automatically set by JPA auditing
 
 		Account updatedAccount = accountRepository.save(account);
 		return mapToDto(updatedAccount);

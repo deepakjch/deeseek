@@ -21,11 +21,10 @@ import java.util.List;
 public class CustomerController {
 
 	private final CustomerService customerService;
-	private static final String DEFAULT_USER = "SYSTEM";
 
 	@PostMapping
 	public ResponseEntity<ResponseDto<CustomerDto>> createCustomer(@Valid @RequestBody CustomerRequestDto customerRequestDto) {
-		CustomerDto customerDto = customerService.createCustomer(customerRequestDto, DEFAULT_USER);
+		CustomerDto customerDto = customerService.createCustomer(customerRequestDto);
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(ResponseDto.success("Customer created successfully", customerDto));
 	}
@@ -46,7 +45,7 @@ public class CustomerController {
 	public ResponseEntity<ResponseDto<CustomerDto>> updateCustomer(
 			@PathVariable Long customerId,
 			@Valid @RequestBody CustomerRequestDto customerRequestDto) {
-		CustomerDto customerDto = customerService.updateCustomer(customerId, customerRequestDto, DEFAULT_USER);
+		CustomerDto customerDto = customerService.updateCustomer(customerId, customerRequestDto);
 		return ResponseEntity.ok(ResponseDto.success("Customer updated successfully", customerDto));
 	}
 
@@ -54,7 +53,7 @@ public class CustomerController {
 	public ResponseEntity<ResponseDto<CustomerDto>> partialUpdateCustomer(
 			@PathVariable Long customerId,
 			@RequestBody CustomerRequestDto customerRequestDto) {
-		CustomerDto customerDto = customerService.partialUpdateCustomer(customerId, customerRequestDto, DEFAULT_USER);
+		CustomerDto customerDto = customerService.partialUpdateCustomer(customerId, customerRequestDto);
 		return ResponseEntity.ok(ResponseDto.success("Customer updated successfully", customerDto));
 	}
 
